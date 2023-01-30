@@ -30,14 +30,28 @@ WHERE addresses.number IS null
 SELECT * from products WHERE price>1000
 
 9-La liste de tous les produits associés à leurs photos respectives ;
-SELECT * FROM products JOIN pictures
+SELECT products.*, pictures.*
+FROM products JOIN pictures
+ON products.id=pictures.product_id
 
 10-La liste de tous les produits appartenant à la catégorie « Voyage » ;
-SELECT * FROM products JOIN products_categories JOIN categories WHERE categories.title="Voyage"
+SELECT products.*
+FROM products
+JOIN products_categories
+ON products.id=products_categories.product_id
+JOIN categories
+ON products_categories.category_id=categories.id
+WHERE categories.title="Voyage"
 
 11-La liste de tous les utilisateurs ayant effectué plus de dix commandes ;
-
+SELECT users.*, orders.user_id
+FROM users join orders
+ON users.id = orders.user_id
+GROUP BY orders.user_id
+HAVING COUNT(orders.user_id) > 10
 
 12-La liste de tous les produits achetés par le premier utilisateur inscrit.
-
-
+SELECT *
+FROM users
+ORDER BY registration_date
+LIMIT 1
